@@ -72,4 +72,3 @@ def lengthFromIndices(t, indices):
 frstLengths = lengthFromIndices(frstPoints, frstIndices)
 scndLengths = lengthFromIndices(scndPoints, scndIndices)
 sumLengths = frstLengths + scndLengths
-print(min(sumLengths))# HECK

@@ -20,55 +20,35 @@ def pointsPassed(wire):
     x = 0
     y = 0
     l = 0
-    points = []
+    points = {}
     for i in range(0, len(wire)):
-        l += 1
         if wire[i][0] == "R":
             for j in range(0, wire[i][1]):
                 x += 1
-                points.append((x,y,l))
+                l += 1
+                points[(x,y)] = l
         if wire[i][0] == "D":
             for j in range(0, wire[i][1]):
                 y -= 1
-                points.append((x,y,l))
+                l += 1
+                points[(x,y)] = l
         if wire[i][0] == "L":
             for j in range(0, wire[i][1]):
                 x -= 1
-                points.append((x,y,l))
+                l += 1
+                points[(x,y)] = l
         if wire[i][0] == "U":
             for j in range(0, wire[i][1]):
                 y += 1
-                points.append((x,y,l))
+                l += 1
+                points[(x,y)] = l
     return points
 
 frstPoints = pointsPassed(frstWire)
 scndPoints = pointsPassed(scndWire)
+both = set(frstPoints.keys())&set(scndPoints.keys())
 
-def tupleFromTriple(x):
-    return x[0:2]
+part1 = min([abs(x) + abs(y) for (x,y) in both])
+part2 = min([frstPoints[p]+scndPoints[p] for p in both])
 
-frstPointsCrdn = [tupleFromTriple(x) for x in frstPoints]
-scndPointsCrdn = [tupleFromTriple(x) for x in scndPoints]
-    
-intersections = list(set(frstPointsCrdn).intersection(scndPointsCrdn))
-distances = [ (abs(pair[0])+abs(pair[1])) for pair in intersections]
-print(min(distances)) # Task 1 Correct
-
-def indices(where, what):
-    indices = []
-    for x in what:
-        indices.append(where.index(x))
-    return indices
-
-frstIndices = indices(frstPointsCrdn, intersections)
-scndIndices = indices(scndPointsCrdn, intersections)
-
-def lengthFromIndices(t, indices):
-    lengths = []
-    for i in indices:
-        lengths.append(t[i][2])
-    return lengths
-
-frstLengths = lengthFromIndices(frstPoints, frstIndices)
-scndLengths = lengthFromIndices(scndPoints, scndIndices)
-sumLengths = frstLengths + scndLengths
+print(part1, part2)

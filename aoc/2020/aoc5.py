@@ -1,5 +1,4 @@
 import helpFunctions as hF
-import math
 
 input = hF.txt2Table("aoc5.txt")
 
@@ -29,26 +28,25 @@ def getSeat(s):
 
 
 def getMySeat(seats):
-    validseats = []
-    for i in range(1, len(seats) - 1):
-        for j in range(1, len(seats)-1):
-            diff = seats[i][2] - seats[j][2]
+    validseats = set()
+    for seat in seats:
+        for seat2 in seats:
+            diff = seat - seat2
             if abs(diff) == 2:
-                validseats.append(min(seats[i][2], seats[j][2])+1)
+                validseats.add(min(seat, seat2)+1)
 
     return validseats
 
 
-def getMissingSeats(seats):
+def getMissingSeats(seatIDs):
     possibleseatIDs = []
 
-    for i in range(128):
+    for i in range(1, 127):
         for j in range(8):
-            possibleseatIDs.append(8*j+i)
+            possibleseatIDs.append(8*i+j)
+    missing = set(possibleseatIDs).difference(set(seatIDs))
 
-    myPossibleSeat = getMySeat(seats)
-
-    return (list(set(possibleseatIDs) & set(myPossibleSeat)))
+    return missing
 
 
 seatIDs = []
@@ -59,4 +57,7 @@ for seat in input:
     seats.append(rowcolid)
     print(rowcolid)
 print(max(seatIDs))
-print(getMissingSeats(seats))
+print("Missing: ", getMissingSeats(seatIDs))
+print("My seat: ", getMySeat(getMissingSeats(seatIDs)))
+
+print("why")

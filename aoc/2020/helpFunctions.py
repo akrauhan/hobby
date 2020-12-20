@@ -14,21 +14,20 @@ def txt2Table(filename, oType=str):
     '''Takes filename of text-file with strings,
     returns table parsed with type given.'''
 
-    parseType = oType
-    if (oType == "string"):
-        parseType = str
-    elif (oType == "integer"):
-        parseType = int
-    elif (oType == "double"):
-        parseType = float
-
     file = open(filename, "r")
     t = []
     for line in file:
-        t.append(parseType(line))
+        t.append(oType(line))
     file.close()
     return t
 
+def txt2Array(filename, oType=str):
+    file = open(filename, "r")
+    t = []
+    for line in file:
+        t.append(oType(line))
+    file.close()
+    return t
 
 def txt2StrTable(filename):
     '''Takes filename of text-file with string on each line,
